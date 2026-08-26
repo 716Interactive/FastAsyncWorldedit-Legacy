@@ -14,8 +14,10 @@ processResources {
     }
 }
 
-jar.destinationDir = file '../target'
-jar.archiveName = "FastAsyncVoxelSniper-${project.name}-${parent.version}.jar"
+tasks.named('jar') {
+    destinationDirectory = file '../target'
+    archiveFileName = "FastAsyncVoxelSniper-${project.name}-${parent.version}.jar"
+}
 jar.doLast { task ->
     ant.checksum file: task.archivePath
 }

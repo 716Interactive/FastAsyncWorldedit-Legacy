@@ -1,6 +1,10 @@
 buildscript {
     repositories {
         mavenCentral()
+        // The legacy Shadow plugin is no longer mirrored by Maven Central or JCenter.
+        // Keep the original plugin version for Gradle 3.x/Java 8 compatibility,
+        // but resolve it from the Gradle Plugin Portal.
+        maven { url = "https://plugins.gradle.org/m2/" }
         maven { url = "https://oss.sonatype.org/content/repositories/snapshots/" }
         jcenter()
     }

@@ -13,7 +13,6 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.invoke.MethodHandles;
 import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.util.Arrays;
 import java.util.Collection;
@@ -443,13 +442,16 @@ public class Config {
      * Set some field to be accesible
      *
      * @param field
-     * @throws NoSuchFieldException
      * @throws IllegalAccessException
      */
-    private void setAccessible(Field field) throws NoSuchFieldException, IllegalAccessException {
+    private void setAccessible(Field field) throws IllegalAccessException {
+        /*
+         * Field.modifiers was removed from the JDK implementation after Java 8.
+         * The old code used it to clear FINAL reflectively, which makes config
+         * loading fail on modern JDKs (and leaves Settings.IMP partially built).
+         * Config.set() already skips fields marked @Final, so opening the field
+         * is all that is required here.
+         */
         field.setAccessible(true);
-        Field modifiersField = Field.class.getDeclaredField("modifiers");
-        modifiersField.setAccessible(true);
-        modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
     }
 }

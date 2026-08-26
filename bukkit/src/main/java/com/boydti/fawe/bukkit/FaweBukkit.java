@@ -131,9 +131,13 @@ public class FaweBukkit implements IFawe, Listener {
         } catch (final Throwable e) {
             MainUtil.handleError(e);
             Bukkit.getServer().shutdown();
+            return;
         }
 
         // Registered delayed Event Listeners
+        if (Fawe.get() == null || TaskManager.IMP == null) {
+            return;
+        }
         TaskManager.IMP.task(new Runnable() {
             @Override
             public void run() {

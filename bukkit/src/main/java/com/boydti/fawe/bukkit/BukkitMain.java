@@ -81,6 +81,9 @@ public class BukkitMain extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        Fawe.get().onDisable();
+        Fawe instance = Fawe.get();
+        if (instance != null) {
+            instance.onDisable();
+        }
     }
 }

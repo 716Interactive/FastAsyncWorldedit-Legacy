@@ -1,15 +1,12 @@
 buildscript {
     repositories {
         mavenCentral()
-        // The legacy Shadow plugin is no longer mirrored by Maven Central or JCenter.
-        // Keep the original plugin version for Gradle 3.x/Java 8 compatibility,
-        // but resolve it from the Gradle Plugin Portal.
+        // Shadow 9.x is resolved from the Gradle Plugin Portal.
         maven { url = "https://plugins.gradle.org/m2/" }
         maven { url = "https://oss.sonatype.org/content/repositories/snapshots/" }
-        jcenter()
     }
 	dependencies {
-        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.3'
+		classpath 'com.gradleup.shadow:shadow-gradle-plugin:9.6.1'
         classpath 'org.ajoberstar:grgit:1.7.0'
     }
     configurations.all {
@@ -86,14 +83,21 @@ description = """FastAsyncWorldEdit"""
 subprojects {
 
     apply plugin: 'java'
-    apply plugin: 'maven'
+    apply plugin: 'maven-publish'
     apply plugin: 'eclipse'
     apply plugin: 'idea'
 
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
+    // Preserve the old dependency names while using Gradle 9's Java plugin.
+    // The legacy module scripts still declare `compile`/`testCompile`.
+    configurations {
+        compile
+        testCompile
+    }
+    configurations.implementation.extendsFrom(configurations.compile)
+    configurations.testImplementation.extendsFrom(configurations.testCompile)
 
-    compileJava {
+    tasks.withType(JavaCompile).configureEach {
+        options.release = 8
         options.compilerArgs += ["-parameters"]
     }
 
@@ -101,6 +105,7 @@ subprojects {
         maven {url "https://mvnrepository.com/artifact/"}
         mavenCentral()
         maven {url "https://repo.dmulloy2.net/content/groups/public/"}
+        maven {url "https://repo.aikar.co/content/repositories/aikar-release/"}
         maven {url "https://repo.destroystokyo.com/repository/maven-public//"}
         //maven {url "https://ci.emc.gs/nexus/content/groups/aikar/" }
         maven {url "https://ci.athion.net/plugin/repository/tools/"}

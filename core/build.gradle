@@ -26,9 +26,12 @@ processResources {
     }
 }
 
-jar.archiveName="fawe-api-${project.parent.version}.jar"
-jar.destinationDir = file '../mvn/com/boydti/fawe-api/' + project.parent.version
-task createPom << {
+tasks.named('jar') {
+    archiveFileName = "fawe-api-${project.parent.version}.jar"
+    destinationDirectory = file '../mvn/com/boydti/fawe-api/' + project.parent.version
+}
+task createPom {
+    doLast {
     pom {
         project {
             groupId 'com.boydti'
@@ -49,6 +52,7 @@ task createPom << {
     .getEffectivePom()
     .setDependencies(new ArrayList<>())
     .writeTo("../mvn/com/boydti/fawe-api/latest/fawe-api-latest.pom")
+    }
 }
 
 task copyFiles {

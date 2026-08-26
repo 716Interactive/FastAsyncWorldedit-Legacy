@@ -19,7 +19,7 @@ plugins {
 }
 
 apply plugin: 'net.minecrell.vanillagradle.server'
-apply plugin: 'com.github.johnrengelman.shadow'
+apply plugin: 'com.gradleup.shadow'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8

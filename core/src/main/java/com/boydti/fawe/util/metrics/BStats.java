@@ -1,6 +1,7 @@
 package com.boydti.fawe.util.metrics;
 
 import com.boydti.fawe.Fawe;
+import com.boydti.fawe.FaweVersion;
 import com.boydti.fawe.configuration.file.YamlConfiguration;
 import com.boydti.fawe.object.RunnableVal;
 import com.boydti.fawe.object.io.PGZIPOutputStream;
@@ -65,7 +66,15 @@ public class BStats implements Closeable {
     private static final ConcurrentLinkedQueue<Object> knownMetricsInstances = new ConcurrentLinkedQueue<>();
 
     public BStats() {
-        this("FastAsyncWorldEdit", Fawe.get().getVersion().toString(), Fawe.imp().getPlatformVersion(), Fawe.imp().getPlatform(), Fawe.imp().isOnlineMode());
+        // Version discovery can legitimately occur after metrics construction
+        // during early plugin startup. Never let telemetry disable FAWE.
+        this("FastAsyncWorldEdit", safeVersion(),
+                Fawe.imp().getPlatformVersion(), Fawe.imp().getPlatform(), Fawe.imp().isOnlineMode());
+    }
+
+    private static String safeVersion() {
+        FaweVersion version = Fawe.get().getVersion();
+        return version == null ? "unknown" : version.toString();
     }
 
     public int getPlayerCount() {

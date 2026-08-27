@@ -61,7 +61,6 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
-import org.primesoft.blockshub.BlocksHubBukkit;
 
 public class FaweBukkit implements IFawe, Listener {
 
@@ -621,7 +620,15 @@ public class FaweBukkit implements IFawe, Listener {
             enabledBlocksHub = false;
             return null;
         }
-        return ((BlocksHubBukkit) blocksHubPlugin).getApi();
+        try {
+            // Avoid a hard link to the optional BlocksHub implementation class;
+            // legacy and current BlocksHub builds expose the same getApi method
+            // but use different plugin implementation types.
+            return blocksHubPlugin.getClass().getMethod("getApi").invoke(blocksHubPlugin);
+        } catch (Throwable ignored) {
+            enabledBlocksHub = false;
+            return null;
+        }
     }
 
     @Override

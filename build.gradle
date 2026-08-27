@@ -97,7 +97,12 @@ subprojects {
     configurations.testImplementation.extendsFrom(configurations.testCompile)
 
     tasks.withType(JavaCompile).configureEach {
-        options.release = 8
+        // Compile with JDK 8 to retain access to the legacy Unsafe/ReflectionFactory
+        // compatibility APIs, while Gradle itself runs on Java 25.
+        sourceCompatibility = '8'
+        targetCompatibility = '8'
+        options.fork = true
+        options.forkOptions.executable = '/usr/lib/jvm/java-8-openjdk-amd64/bin/javac'
         options.compilerArgs += ["-parameters"]
     }
 

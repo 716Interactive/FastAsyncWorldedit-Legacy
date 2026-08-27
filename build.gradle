@@ -97,12 +97,14 @@ subprojects {
     configurations.testImplementation.extendsFrom(configurations.testCompile)
 
     tasks.withType(JavaCompile).configureEach {
-        // Compile with JDK 8 to retain access to the legacy Unsafe/ReflectionFactory
-        // compatibility APIs, while Gradle itself runs on Java 25.
+        // Core still uses legacy internal APIs, so compile it with JDK 8. Bukkit
+        // is compiled by the active JDK against the modern server fork classes.
         sourceCompatibility = '8'
         targetCompatibility = '8'
-        options.fork = true
-        options.forkOptions.executable = '/usr/lib/jvm/java-8-openjdk-amd64/bin/javac'
+        if (project.name == 'core') {
+            options.fork = true
+            options.forkOptions.executable = '/usr/lib/jvm/java-8-openjdk-amd64/bin/javac'
+        }
         options.compilerArgs += ["-parameters"]
     }
 

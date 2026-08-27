@@ -96,7 +96,7 @@ public class RenderListener implements Listener {
                 }
             }
         }
-        player.setViewDistance(value);
+        // Per-player view distance is not available in Spigot 1.12.2.
     }
 
     public int getViewDistance(Player player) {

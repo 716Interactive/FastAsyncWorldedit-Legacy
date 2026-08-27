@@ -189,7 +189,7 @@ public class StructureCUI extends CUI {
         removeTag = compound;
 
         Location blockLoc = new Location(player.getWorld(), x, y, z);
-        player.sendBlockChange(blockLoc, Material.STRUCTURE_BLOCK, (byte) 0);
+        player.sendBlockChange(blockLoc, Material.AIR, (byte) 0);
         if (setOp) sendOp();
         sendNbt(remove, compound);
     }

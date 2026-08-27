@@ -114,29 +114,7 @@ public class BukkitWorld extends LocalWorld {
             case v1_11_R1:
                 return;
             default:
-                if (ent instanceof Player) {
-                    final Player plr = (Player) ent;
-                    com.sk89q.worldedit.entity.Entity left = adapt(((Player) ent).getShoulderEntityLeft());
-                    com.sk89q.worldedit.entity.Entity right = adapt(((Player) ent).getShoulderEntityRight());
-                    if (left != null) {
-                        ents.add(new DelegateEntity(left) {
-                            @Override
-                            public boolean remove() {
-                                plr.setShoulderEntityLeft(null);
-                                return true;
-                            }
-                        });
-                    }
-                    if (right != null) {
-                        ents.add(new DelegateEntity(right) {
-                            @Override
-                            public boolean remove() {
-                                plr.setShoulderEntityRight(null);
-                                return true;
-                            }
-                        });
-                    }
-                }
+                return;
         }
     };
 

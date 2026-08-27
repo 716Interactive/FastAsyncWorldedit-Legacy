@@ -14,7 +14,7 @@ import com.boydti.fawe.bukkit.util.cui.StructureCUI;
 import com.boydti.fawe.bukkit.v0.BukkitQueue_0;
 import com.boydti.fawe.bukkit.v0.BukkitQueue_All;
 import com.boydti.fawe.bukkit.v0.ChunkListener_9;
-import com.boydti.fawe.bukkit.v1_12.BukkitQueue_1_12;
+import com.boydti.fawe.bukkit.v1_8.BukkitQueue18R3;
 import com.boydti.fawe.config.BBC;
 import com.boydti.fawe.config.Settings;
 import com.boydti.fawe.object.FaweCommand;
@@ -535,7 +535,7 @@ public class FaweBukkit implements IFawe, Listener {
     private FaweQueue getQueue(World world) {
         switch (getVersion()) {
             case v1_8_R3:
-                return new BukkitQueue_1_12(world);
+                return new BukkitQueue18R3(world);
             default:
             case NONE:
                 return new BukkitQueue_All(world);
@@ -545,7 +545,7 @@ public class FaweBukkit implements IFawe, Listener {
     private FaweQueue getQueue(String world) {
         switch (getVersion()) {
             case v1_8_R3:
-                return new BukkitQueue_1_12(world);
+                return new BukkitQueue18R3(world);
             default:
             case NONE:
                 return new BukkitQueue_All(world);

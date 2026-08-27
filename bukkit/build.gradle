@@ -9,8 +9,8 @@ dependencies {
     // server build that will run FAWE; no separate Paper/CraftBukkit artifacts
     // are required.
     // Compile directly against the runnable SMSMSpigotLegacy server fork.
-    // Spigot 1.12.2 provides the API/NMS surface expected by this FAWE branch.
-    compile files('/tmp/spigot1122/out/spigot-1.12.2.jar')
+    // The deployment server is SMSMSpigotLegacy 1.8.8.
+    compile files('/tmp/smsm-buildtools/out/spigot-1.8.8.jar')
     compile 'junit:junit:4.11'
     compile 'com.sk89q.worldedit:worldedit-bukkit:6.1.4-SNAPSHOT'
     compile 'com.sk89q.worldedit:worldedit-core:6.1.4-SNAPSHOT'
@@ -49,10 +49,10 @@ sourceSets {
             exclude 'com/boydti/fawe/bukkit/regions/FreeBuildRegion.java'
             exclude 'com/boydti/fawe/bukkit/v0/ChunkListener_8.java'
             exclude 'com/boydti/fawe/bukkit/v1_7/**'
-            exclude 'com/boydti/fawe/bukkit/v1_8/**'
             exclude 'com/boydti/fawe/bukkit/v1_9/**'
             exclude 'com/boydti/fawe/bukkit/v1_10/**'
             exclude 'com/boydti/fawe/bukkit/v1_11/**'
+            exclude 'com/boydti/fawe/bukkit/v1_12/**'
         }
     }
 }

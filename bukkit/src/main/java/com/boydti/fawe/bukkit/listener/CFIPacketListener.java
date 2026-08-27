@@ -82,7 +82,7 @@ public class CFIPacketListener implements Listener {
 
                     EnumWrappers.Hand enumHand = hands.isEmpty() ? EnumWrappers.Hand.MAIN_HAND : hands.get(0);
                     PlayerInventory inv = plr.getInventory();
-                    ItemStack hand = enumHand == EnumWrappers.Hand.MAIN_HAND ? inv.getItemInMainHand() : inv.getItemInOffHand();
+                    ItemStack hand = inv.getItemInHand();
                     if (hand != null && hand.getType().isBlock() && hand.getTypeId() != 0) {
                         BaseBlock block = FaweCache.getBlock(hand.getTypeId(), hand.getDurability());
                         gen.setBlock(pt, block);

@@ -5,8 +5,6 @@ import com.boydti.fawe.FaweCache;
 import com.boydti.fawe.bukkit.BukkitPlayer;
 import com.boydti.fawe.bukkit.FaweBukkit;
 import com.boydti.fawe.bukkit.util.BukkitReflectionUtils;
-import com.boydti.fawe.bukkit.v1_12.packet.FaweChunkPacket;
-import com.boydti.fawe.bukkit.v1_12.packet.MCAChunkPacket;
 import com.boydti.fawe.example.CharFaweChunk;
 import com.boydti.fawe.example.NMSMappedFaweQueue;
 import com.boydti.fawe.jnbt.anvil.MCAChunk;
@@ -135,14 +133,11 @@ public abstract class BukkitQueue_0<CHUNK, CHUNKSECTIONS, SECTION> extends NMSMa
                         if (chunk instanceof LazyFaweChunk) {
                             chunk = (FaweChunk) chunk.getChunk();
                         }
-                        if (chunk instanceof MCAChunk) {
-                            data = new MCAChunkPacket((MCAChunk) chunk, true, true, hasSky()).apply(buffer);
-                        } else {
-                            data = new FaweChunkPacket(chunk, true, true, hasSky()).apply(buffer);
-                        }
-                        packet = new WirePacket(PacketType.Play.Server.MAP_CHUNK, data);
+                        // Legacy 1.8 uses the native chunk packet path; the
+                        // 1.12 packet encoders are intentionally not bundled.
+                        packet = null;
                     }
-                    manager.sendWirePacket(player, packet);
+                    if (packet != null) manager.sendWirePacket(player, packet);
                 }
             }
         } catch (InvocationTargetException e) {

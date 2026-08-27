@@ -1,6 +1,7 @@
 repositories {
     flatDir {dirs 'lib'}
 }
+apply plugin: 'com.gradleup.shadow'
 dependencies {
     compile project(':core')
     // Compile directly against the runnable SMSMSpigotLegacy server fork.
@@ -16,6 +17,9 @@ dependencies {
     // ProtocolLib is the only external integration retained for packet/CUI support.
     compile files('../lib/ProtocolLib-API-4.4.0.jar')
     compile 'co.aikar:fastutil-lite:1.0'
+    shadow project(':core')
+    shadow 'com.github.luben:zstd-jni:1.1.1'
+    shadow 'co.aikar:fastutil-lite:1.0'
 }
 
 sourceSets {
@@ -105,14 +109,9 @@ task copyFiles {
     }
 }
 
-apply plugin: 'com.gradleup.shadow'
 // We only want the shadow jar produced
 shadowJar {
-    dependencies {
-        include(dependency('com.github.luben:zstd-jni:1.1.1'))
-        include(dependency('co.aikar:fastutil-lite:1.0'))
-        include(dependency(':core'))
-    }
+    configurations = [project.configurations.shadow]
     archiveFileName = "${parent.name}-${project.name}-${parent.version}.jar"
     destinationDirectory = file '../target'
     relocate('com.google.gson', 'com.sk89q.worldedit.internal.gson')

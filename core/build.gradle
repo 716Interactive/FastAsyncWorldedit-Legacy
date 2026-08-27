@@ -5,8 +5,9 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'org.yaml:snakeyaml:1.16'
     compile 'com.google.code.gson:gson:2.2.4'
-    compile files('../lib/plotsquared-api-3.0.jar')
-    compile files('../lib/BlocksHub-API-2.0.jar')
+    // Compile-only legacy API references retained in command signatures; it is
+    // not included in the Bukkit distribution.
+    compileOnly files('../lib/plotsquared-api-3.0.jar')
     compile 'com.github.luben:zstd-jni:1.1.1'
 //    compile 'org.javassist:javassist:3.22.0-CR1'
     compile 'co.aikar:fastutil-lite:1.0'

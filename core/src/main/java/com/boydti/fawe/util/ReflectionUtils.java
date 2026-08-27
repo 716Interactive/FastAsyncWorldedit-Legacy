@@ -124,16 +124,19 @@ public class ReflectionUtils {
         // let's make the field accessible
         field.setAccessible(true);
 
-        // next we change the modifier in the Field instance to
-        // not be final anymore, thus tricking reflection into
-        // letting us modify the static final field
-        Field modifiersField = Field.class.getDeclaredField("modifiers");
-        modifiersField.setAccessible(true);
-        int modifiers = modifiersField.getInt(field);
-
-        // blank out the final bit in the modifiers int
-        modifiers &= ~Modifier.FINAL;
-        modifiersField.setInt(field, modifiers);
+        // Older JDKs exposed a private `Field.modifiers` member which could be
+        // changed to clear FINAL. That implementation detail was removed in
+        // modern JDKs (including Java 25), so do not fail merely because the
+        // compatibility field is absent. ReflectionFactory/Field.set below is
+        // sufficient for the legacy fields FAWE updates on supported servers.
+        try {
+            Field modifiersField = Field.class.getDeclaredField("modifiers");
+            modifiersField.setAccessible(true);
+            int modifiers = modifiersField.getInt(field) & ~Modifier.FINAL;
+            modifiersField.setInt(field, modifiers);
+        } catch (NoSuchFieldException ignored) {
+            // Java 12+: Field.modifiers no longer exists.
+        }
 
         try {
             FieldAccessor fa = ReflectionFactory.getReflectionFactory().newFieldAccessor(field, false);

@@ -15,6 +15,13 @@ dependencies {
     }
 }
 
+sourceSets.main.java {
+    exclude 'com/boydti/fawe/regions/general/plot/**'
+    exclude 'com/boydti/fawe/logging/LoggingChangeSet.java'
+    exclude 'com/boydti/fawe/logging/MutableBlockData.java'
+    exclude 'com/boydti/fawe/logging/MutableVector.java'
+}
+
 processResources {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     from('src/main/resources') {

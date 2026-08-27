@@ -51,7 +51,6 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
-import org.primesoft.blockshub.BlocksHubBukkit;
 
 public class FaweBukkit implements IFawe, Listener {
 
@@ -561,19 +560,9 @@ public class FaweBukkit implements IFawe, Listener {
         return Bukkit.getOfflinePlayer(uuid).getName();
     }
 
-    private boolean enabledBlocksHub = true;
-
     @Override
     public Object getBlocksHubApi() {
-        if (!enabledBlocksHub) {
-            return null;
-        }
-        Plugin blocksHubPlugin = Bukkit.getPluginManager().getPlugin("BlocksHub");
-        if (blocksHubPlugin == null) {
-            enabledBlocksHub = false;
-            return null;
-        }
-        return ((BlocksHubBukkit) blocksHubPlugin).getApi();
+        return null;
     }
 
     @Override

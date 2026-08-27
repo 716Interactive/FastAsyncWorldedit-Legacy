@@ -4,28 +4,18 @@ import com.boydti.fawe.Fawe;
 import com.boydti.fawe.IFawe;
 import com.boydti.fawe.bukkit.chat.BukkitChatManager;
 import com.boydti.fawe.bukkit.listener.BrushListener;
-import com.boydti.fawe.bukkit.listener.BukkitImageListener;
 import com.boydti.fawe.bukkit.listener.CFIPacketListener;
-import com.boydti.fawe.bukkit.listener.RenderListener;
 import com.boydti.fawe.bukkit.regions.*;
 import com.boydti.fawe.bukkit.util.BukkitReflectionUtils;
 import com.boydti.fawe.bukkit.util.BukkitTaskMan;
 import com.boydti.fawe.bukkit.util.ItemUtil;
-import com.boydti.fawe.bukkit.util.VaultUtil;
 import com.boydti.fawe.bukkit.util.cui.CUIListener;
 import com.boydti.fawe.bukkit.util.cui.StructureCUI;
-import com.boydti.fawe.bukkit.util.image.BukkitImageViewer;
 import com.boydti.fawe.bukkit.v0.BukkitQueue_0;
 import com.boydti.fawe.bukkit.v0.BukkitQueue_All;
-import com.boydti.fawe.bukkit.v0.ChunkListener_8;
 import com.boydti.fawe.bukkit.v0.ChunkListener_9;
-import com.boydti.fawe.bukkit.v1_10.BukkitQueue_1_10;
-import com.boydti.fawe.bukkit.v1_11.BukkitQueue_1_11;
 import com.boydti.fawe.bukkit.v1_12.BukkitQueue_1_12;
 import com.boydti.fawe.bukkit.v1_12.NMSRegistryDumper;
-import com.boydti.fawe.bukkit.v1_7.BukkitQueue17;
-import com.boydti.fawe.bukkit.v1_8.BukkitQueue18R3;
-import com.boydti.fawe.bukkit.v1_9.BukkitQueue_1_9_R1;
 import com.boydti.fawe.config.BBC;
 import com.boydti.fawe.config.Settings;
 import com.boydti.fawe.object.FaweCommand;
@@ -66,20 +56,14 @@ import org.primesoft.blockshub.BlocksHubBukkit;
 public class FaweBukkit implements IFawe, Listener {
 
     private final BukkitMain plugin;
-    private VaultUtil vault;
     private WorldEditPlugin worldedit;
     private ItemUtil itemUtil;
 
     private boolean listeningImages;
-    private BukkitImageListener imageListener;
     private CFIPacketListener packetListener;
 
     private boolean listeningCui;
     private CUIListener cuiListener;
-
-    public VaultUtil getVault() {
-        return this.vault;
-    }
 
     public WorldEditPlugin getWorldEditPlugin() {
         if (this.worldedit == null) {
@@ -145,12 +129,7 @@ public class FaweBukkit implements IFawe, Listener {
                 Bukkit.getPluginManager().registerEvents(FaweBukkit.this, FaweBukkit.this.plugin);
 
                 // The tick limiter
-                try {
-                    Class.forName("sun.misc.SharedSecrets");
-                    new ChunkListener_8();
-                } catch (ClassNotFoundException e) {
-                    new ChunkListener_9();
-                }
+                new ChunkListener_9();
             }
         });
     }
@@ -183,32 +162,6 @@ public class FaweBukkit implements IFawe, Listener {
 
     @Override
     public synchronized ImageViewer getImageViewer(FawePlayer fp) {
-        if (listeningImages && imageListener == null) return null;
-        try {
-            listeningImages = true;
-            registerPacketListener();
-            PluginManager manager = Bukkit.getPluginManager();
-
-            if (manager.getPlugin("PacketListenerApi") == null) {
-                File output = new File(plugin.getDataFolder().getParentFile(), "PacketListenerAPI_v3.6.0-SNAPSHOT.jar");
-                byte[] jarData = Jars.PL_v3_6_0.download();
-                try (FileOutputStream fos = new FileOutputStream(output)) {
-                    fos.write(jarData);
-                }
-            }
-            if (manager.getPlugin("MapManager") == null) {
-                File output = new File(plugin.getDataFolder().getParentFile(), "MapManager_v1.4.0-SNAPSHOT.jar");
-                byte[] jarData = Jars.MM_v1_4_0.download();
-                try (FileOutputStream fos = new FileOutputStream(output)) {
-                    fos.write(jarData);
-                }
-            }
-            BukkitImageViewer viewer = new BukkitImageViewer((Player) fp.parent);
-            if (imageListener == null) {
-                this.imageListener = new BukkitImageListener(plugin);
-            }
-            return viewer;
-        } catch (Throwable ignore) {}
         return null;
     }
 
@@ -342,7 +295,6 @@ public class FaweBukkit implements IFawe, Listener {
     @Override
     public void setupVault() {
         try {
-            this.vault = new VaultUtil();
         } catch (final Throwable e) {
             this.debug("&dVault is used for persistent `/wea` toggles.");
         }

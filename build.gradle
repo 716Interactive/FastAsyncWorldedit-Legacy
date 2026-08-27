@@ -99,6 +99,11 @@ subprojects {
     tasks.withType(JavaCompile).configureEach {
         options.release = 8
         options.compilerArgs += ["-parameters"]
+        if (project.name == 'core') {
+            options.release = null
+            options.fork = true
+            options.forkOptions.executable = '/usr/lib/jvm/java-8-openjdk-amd64/bin/javac'
+        }
     }
 
     repositories {

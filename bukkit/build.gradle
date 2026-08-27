@@ -61,12 +61,8 @@ clean { delete "../target" }
 
 processResources {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    from('src/main/resources') {
-        include 'plugin.yml'
-        expand(
-                name: project.parent.name,
-                version: project.parent.version
-        )
+    filesMatching('plugin.yml') {
+        expand(name: project.parent.name, version: project.parent.version)
     }
 }
 

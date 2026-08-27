@@ -25,12 +25,8 @@ sourceSets.main.java {
 
 processResources {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    from('src/main/resources') {
-        include 'fawe.properties'
-        expand(
-                version: "${project.parent.version}",
-                name: project.parent.name,
-        )
+    filesMatching('fawe.properties') {
+        expand(version: project.parent.version, name: project.parent.name)
     }
 }
 

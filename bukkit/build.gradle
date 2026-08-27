@@ -3,54 +3,54 @@ repositories {
 }
 dependencies {
     compile project(':core')
+    // Compile directly against the runnable SMSMSpigotLegacy server fork.
+    // This supplies Bukkit, CraftBukkit, and NMS 1.8.8 classes from the exact
+    // server build that will run FAWE; no separate Paper/CraftBukkit artifacts
+    // are required.
+    // Compile directly against the runnable SMSMSpigotLegacy server fork.
+    // Spigot 1.12.2 provides the API/NMS surface expected by this FAWE branch.
     compile files('/tmp/spigot1122/out/spigot-1.12.2.jar')
     compile 'junit:junit:4.11'
     compile 'com.sk89q.worldedit:worldedit-bukkit:6.1.4-SNAPSHOT'
     compile 'com.sk89q.worldedit:worldedit-core:6.1.4-SNAPSHOT'
+    // ProtocolLib is the only external integration retained for packet/CUI support.
     compile files('../lib/ProtocolLib-API-4.4.0.jar')
     compile 'co.aikar:fastutil-lite:1.0'
 }
 
-sourceSets.main.java {
-    // This build targets Bukkit/Spigot 1.12.2 only.
-    exclude 'com/boydti/fawe/bukkit/v1_7/**'
-    exclude 'com/boydti/fawe/bukkit/v1_8/**'
-    exclude 'com/boydti/fawe/bukkit/v1_9/**'
-    exclude 'com/boydti/fawe/bukkit/v1_10/**'
-    exclude 'com/boydti/fawe/bukkit/v1_11/**'
-    exclude 'com/boydti/fawe/bukkit/filter/WorldGuardFilter.java'
-    exclude 'com/boydti/fawe/bukkit/filter/GriefPreventionFilter.java'
-    exclude 'com/boydti/fawe/bukkit/regions/Worldguard.java'
-    exclude 'com/boydti/fawe/bukkit/regions/PlotMeFeature.java'
-    exclude 'com/boydti/fawe/bukkit/regions/TownyFeature.java'
-    exclude 'com/boydti/fawe/bukkit/regions/FactionsFeature.java'
-    exclude 'com/boydti/fawe/bukkit/regions/FactionsOneFeature.java'
-    exclude 'com/boydti/fawe/bukkit/regions/ResidenceFeature.java'
-    exclude 'com/boydti/fawe/bukkit/regions/GriefPreventionFeature.java'
-    exclude 'com/boydti/fawe/bukkit/regions/ASkyBlockHook.java'
-    exclude 'com/boydti/fawe/bukkit/util/VaultUtil.java'
-    exclude 'com/boydti/fawe/bukkit/util/image/BukkitImageViewer.java'
-    exclude 'com/boydti/fawe/bukkit/listener/BukkitImageListener.java'
-}
-
-sourceSets.main.java {
-    exclude 'com/boydti/fawe/bukkit/filter/WorldGuardFilter.java'
-    exclude 'com/boydti/fawe/bukkit/filter/GriefPreventionFilter.java'
-    exclude 'com/boydti/fawe/bukkit/regions/Worldguard.java'
-    exclude 'com/boydti/fawe/bukkit/regions/PlotMeFeature.java'
-    exclude 'com/boydti/fawe/bukkit/regions/TownyFeature.java'
-    exclude 'com/boydti/fawe/bukkit/regions/FactionsFeature.java'
-    exclude 'com/boydti/fawe/bukkit/regions/FactionsOneFeature.java'
-    exclude 'com/boydti/fawe/bukkit/regions/ResidenceFeature.java'
-    exclude 'com/boydti/fawe/bukkit/regions/GriefPreventionFeature.java'
-    exclude 'com/boydti/fawe/bukkit/regions/ASkyBlockHook.java'
-    exclude 'com/boydti/fawe/bukkit/util/VaultUtil.java'
-    exclude 'com/boydti/fawe/bukkit/util/image/BukkitImageViewer.java'
-    exclude 'com/boydti/fawe/bukkit/listener/BukkitImageListener.java'
-    exclude 'com/boydti/fawe/bukkit/v1_7/**'
-    exclude 'com/boydti/fawe/bukkit/v1_9/**'
-    exclude 'com/boydti/fawe/bukkit/v1_10/**'
-    exclude 'com/boydti/fawe/bukkit/v1_11/**'
+sourceSets {
+    main {
+        java {
+            // Optional region, economy, map and image integrations are not part of
+            // this distribution. ProtocolLib remains enabled above.
+            exclude 'com/boydti/fawe/bukkit/filter/WorldGuardFilter.java'
+            exclude 'com/boydti/fawe/bukkit/filter/GriefPreventionFilter.java'
+            exclude 'com/boydti/fawe/bukkit/regions/Worldguard.java'
+            exclude 'com/boydti/fawe/bukkit/regions/PlotMeFeature.java'
+            exclude 'com/boydti/fawe/bukkit/regions/TownyFeature.java'
+            exclude 'com/boydti/fawe/bukkit/regions/FactionsFeature.java'
+            exclude 'com/boydti/fawe/bukkit/regions/FactionsOneFeature.java'
+            exclude 'com/boydti/fawe/bukkit/regions/ResidenceFeature.java'
+            exclude 'com/boydti/fawe/bukkit/regions/GriefPreventionFeature.java'
+            exclude 'com/boydti/fawe/bukkit/regions/ASkyBlockHook.java'
+            exclude 'com/boydti/fawe/bukkit/util/VaultUtil.java'
+            exclude 'com/boydti/fawe/bukkit/util/image/BukkitImageViewer.java'
+            exclude 'com/boydti/fawe/bukkit/listener/BukkitImageListener.java'
+            exclude 'com/boydti/fawe/bukkit/listener/RenderListener.java'
+            exclude 'com/boydti/fawe/bukkit/wrapper/AsyncWorld.java'
+            exclude 'com/boydti/fawe/bukkit/wrapper/AsyncBlock.java'
+            exclude 'com/boydti/fawe/bukkit/wrapper/AsyncChunk.java'
+            exclude 'com/boydti/fawe/bukkit/wrapper/AsyncBlockState.java'
+            exclude 'com/boydti/fawe/bukkit/wrapper/state/**'
+            exclude 'com/boydti/fawe/bukkit/regions/FreeBuildRegion.java'
+            exclude 'com/boydti/fawe/bukkit/v0/ChunkListener_8.java'
+            exclude 'com/boydti/fawe/bukkit/v1_7/**'
+            exclude 'com/boydti/fawe/bukkit/v1_8/**'
+            exclude 'com/boydti/fawe/bukkit/v1_9/**'
+            exclude 'com/boydti/fawe/bukkit/v1_10/**'
+            exclude 'com/boydti/fawe/bukkit/v1_11/**'
+        }
+    }
 }
 
 clean { delete "../target" }
@@ -119,7 +119,7 @@ shadowJar {
 }
 shadowJar.doLast {
     task ->
-        ant.checksum file: task.archivePath
+        ant.checksum file: task.archiveFile.get().asFile
 }
 
 build.dependsOn(shadowJar);

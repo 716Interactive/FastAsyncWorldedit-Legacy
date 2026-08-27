@@ -1,3 +1,5 @@
 rootProject.name = 'FastAsyncWorldEdit'
 
-include 'core', 'bukkit', 'favs', 'sponge112', 'sponge111'//, 'nukkit', 'forge189', 'forge194', 'forge110', 'forge111', 'forge112', 'forge1710'
+// This fork is intentionally Bukkit-only. Other platform modules remain
+// outside the build so their source and dependencies cannot affect packaging.
+include 'core', 'bukkit'

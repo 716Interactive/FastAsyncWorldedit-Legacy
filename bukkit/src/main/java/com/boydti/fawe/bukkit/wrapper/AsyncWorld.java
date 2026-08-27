@@ -355,18 +355,15 @@ public class AsyncWorld extends DelegateFaweQueue implements World, HasFaweQueue
         return getChunkAt(block.getX(), block.getZ());
     }
 
-    @Override
-    public void getChunkAtAsync(int x, int z, ChunkLoadCallback cb) {
+    public void getChunkAtAsync(int x, int z, Consumer<Chunk> cb) {
         parent.getChunkAtAsync(x, z, cb);
     }
 
-    @Override
-    public void getChunkAtAsync(Location location, ChunkLoadCallback cb) {
+    public void getChunkAtAsync(Location location, Consumer<Chunk> cb) {
         parent.getChunkAtAsync(location, cb);
     }
 
-    @Override
-    public void getChunkAtAsync(Block block, ChunkLoadCallback cb) {
+    public void getChunkAtAsync(Block block, Consumer<Chunk> cb) {
         parent.getChunkAtAsync(block, cb);
     }
 
